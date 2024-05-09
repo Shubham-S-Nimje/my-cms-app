@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddEntriesForm = () => {
+  const navigate = useNavigate();
   const [entities, setEntities] = useState([]);
   const [selectedEntityType, setSelectedEntityType] = useState("");
   const [formData, setFormData] = useState({});
@@ -35,9 +37,10 @@ const AddEntriesForm = () => {
     try {
       await axios.post(
         `https://vahan-cms-backend.onrender.com/entities/${selectedEntityType}`,
-        formData
+        { attributes: formData }
       );
       alert("Entity created successfully!");
+      navigate("/");
     } catch (error) {
       console.error("Error creating entity:", error);
       alert("Error creating entity. Please try again.");
@@ -48,25 +51,28 @@ const AddEntriesForm = () => {
     const selectedEntity = entities[selectedEntityType];
     if (!selectedEntity) return null;
 
-    return Object.keys(selectedEntity).map((attributeName) => (
-      <div key={attributeName} className="mb-5">
-        <label
-          htmlFor={attributeName}
-          className="mb-3 block text-base font-medium text-[#07074D]"
-        >
-          {attributeName}
-        </label>
-        <input
-          type="text"
-          name={attributeName}
-          id={attributeName}
-          placeholder={attributeName}
-          className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-          value={formData[attributeName] || ""}
-          onChange={handleChange}
-        />
-      </div>
-    ));
+    return Object.keys(selectedEntity).map(
+      (attributeName) =>
+        attributeName != "id" && (
+          <div key={attributeName} className="mb-5">
+            <label
+              htmlFor={attributeName}
+              className="mb-3 block text-base font-medium text-[#07074D] capitalize"
+            >
+              {attributeName}
+            </label>
+            <input
+              type="text"
+              name={attributeName}
+              id={attributeName}
+              placeholder={`Enter ${attributeName}`}
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              value={formData[attributeName] || ""}
+              onChange={handleChange}
+            />
+          </div>
+        )
+    );
   };
 
   return (
