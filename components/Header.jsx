@@ -8,15 +8,24 @@ const Header = () => {
     <div className="w-full bg-blue-800 text-white flex justify-between p-2 items-center">
       <img src="/vite.svg" alt="Logo" className="" />
       <ul className="flex justify-between gap-4">
-        <li className={location.pathname === "/" ? "underline font-bold" : ""}>
+        <li
+          className={location.pathname === "/" ? "underline font-semibold" : ""}
+        >
           <a href="/">Entity List</a>
         </li>
         <li
           className={
-            location.pathname === "/create-entity" ? "underline font-bold" : ""
+            location.pathname === "/add-entity" ? "underline font-semibold" : ""
           }
         >
-          <a href="/create-entity">Create Entity</a>
+          <a href="/add-entity">Add Entity</a>
+        </li>
+        <li
+          className={
+            location.pathname === "/add-entry" ? "underline font-semibold" : ""
+          }
+        >
+          <a href="/add-entry">Add Entry</a>
         </li>
       </ul>
     </div>

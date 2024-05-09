@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EntityTable from "./EntityTable";
 
 const EntityList = () => {
   const [entities, setEntities] = useState([]);
@@ -10,7 +11,7 @@ const EntityList = () => {
         const response = await axios.get(
           `https://vahan-cms-backend.onrender.com/entities`
         );
-        setEntities(response.data);
+        setEntities(response.data.entities);
       } catch (error) {
         console.error("Error fetching entities:", error);
       }
@@ -18,17 +19,12 @@ const EntityList = () => {
 
     fetchEntities();
   }, []);
-
-  console.log(entities);
+  // console.log(entities);
 
   return (
-    <div className="container w-fulls">
-      <h1 className="text-3xl font-bold text-center my-2">Entity List</h1>
-      {/* <ul>
-        {entities.map((entity) => (
-          <li key={entity.id}>{entity.name}</li>
-        ))}
-      </ul> */}
+    <div className="container mx-auto size-full">
+      <h1 className="text-3xl font-bold text-center my-4">Entity List</h1>
+      <EntityTable entities={entities} />
     </div>
   );
 };
